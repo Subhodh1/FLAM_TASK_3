@@ -1,0 +1,103 @@
+/* Soft background to entire calendar */
+.rbc-calendar {
+  background-color:#e9d9f9;
+}
+
+/* Calendar toolbar (month/week/day selector) */
+.rbc-toolbar {
+  background-color:#cbb2e3;
+  color: #333;
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Today’s date cell highlight */
+.rbc-today {
+  background-color: #e6f7ff !important;
+}
+
+/* Cell selected on click */
+.rbc-selected-cell {
+  background-color: #ffe0b2 !important;
+}
+
+/* Event styling */
+.rbc-event {
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 14px;
+  color: #000;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+/* On hover, make event pop */
+.rbc-event:hover {
+  opacity: 1;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+/* Black border for each day cell in month/week/day view */
+.rbc-day-bg {
+  border: 1px solid black !important;
+}
+
+/* Border between time rows in week/day view */
+.rbc-time-slot {
+  border-top: 1px solid black !important;
+}
+
+/* Border between hour labels and calendar */
+.rbc-time-content {
+  border-left: 1px solid black !important;
+}
+
+/* Border under toolbar (optional for neat separation) */
+
+
+/* Border around the full calendar (optional) */
+.rbc-calendar {
+  border: 1px solid black;
+}
+
+
+/* Add black outline to each toolbar button group */
+.rbc-btn-group button {
+  border: 1px solid black !important;  /* Black outline */
+  background-color: white;
+  color: black;
+  padding: 6px 12px;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Optional: subtle hover effect */
+.rbc-btn-group button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Keep month label (center text) without any border */
+.rbc-toolbar-label {
+  border: none !important;
+  background-color: transparent;
+  padding: 6px 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Hover effect for date cells */
+/* Hover effect for date cells in month/week/day view */
+.rbc-day-bg {
+  transition: all 0.3s ease-in-out;
+}
+
+.rbc-day-bg:hover {
+  background-color: #ffefc2 !important; /* warm yellow-cream */
+  transform: scale(1.05);               /* slight zoom */
+  cursor: pointer;
+  z-index: 1;                            /* bring above siblings */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* soft glow */
+}
