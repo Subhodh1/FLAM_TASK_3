@@ -4,14 +4,12 @@ import { Link } from 'react-router-dom';
 export default function Homepage() {
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 flex justify-center items-center text-white">
-      {/* Animated Background Emojis */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="animate-float-slow absolute text-8xl opacity-10 top-10 left-10">📅</div>
         <div className="animate-float-fast absolute text-7xl opacity-10 top-1/3 right-20">📆</div>
         <div className="animate-float-medium absolute text-9xl opacity-10 bottom-10 left-1/2">🗓️</div>
       </div>
 
-      {/* Navbar */}
       <nav className="bg-white bg-opacity-10 backdrop-blur-md fixed w-full z-20 top-0 start-0 border-b border-white/20 rounded-b-xl">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
@@ -64,7 +62,6 @@ export default function Homepage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <div className="flex-1 flex flex-col justify-center items-center text-center px-4 mt-16 z-10">
         <h2 className="text-4xl md:text-5xl font-bold mb-6">
           Your Personal Event Management Calender📅
@@ -80,7 +77,6 @@ export default function Homepage() {
         </p>
       </div>
 
-      {/* CTA Button */}
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
         <Link to="/calender">
           <button

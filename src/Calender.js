@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
+
 import EventPopup from './EventPopup';
 import './Calender.css';
 import './App.css';
 
 const localizer = momentLocalizer(moment);
+const DnDCalendar = withDragAndDrop(BigCalendar);
 
 const initialEvents = [
   {
@@ -14,6 +18,7 @@ const initialEvents = [
     title: "Meeting with Hari",
     start: new Date(moment().add(1, 'days').set({ hour: 10, minute: 0 })),
     end: new Date(moment().add(1, 'days').set({ hour: 11, minute: 0 })),
+    recurrence: "none",
     color: "#ADD8E6"
   },
   {
@@ -21,13 +26,15 @@ const initialEvents = [
     title: "Meeting with Aditi",
     start: new Date(moment().subtract(9, 'days').set({ hour: 12, minute: 0 })),
     end: new Date(moment().subtract(9, 'days').set({ hour: 13, minute: 0 })),
+    recurrence: "daily",
     color: "#DDA0DD"
   },
   {
     id: 3,
-    title: "Meeting with Rakshita",
+    title: "Meeting with Raksh",
     start: new Date(moment().subtract(20, 'days').set({ hour: 14, minute: 0 })),
     end: new Date(moment().subtract(20, 'days').set({ hour: 15, minute: 0 })),
+    recurrence: "weekly",
     color: "#FFCCCB"
   },
   {
@@ -35,8 +42,9 @@ const initialEvents = [
     title: "Meeting with Subham",
     start: new Date(moment().subtract(15, 'days').set({ hour: 8, minute: 0 })),
     end: new Date(moment().subtract(15, 'days').set({ hour: 9, minute: 0 })),
+    recurrence: "monthly",
     color: "#FFB6C1"
-  },
+  }
 ];
 
 export default function Calender() {
@@ -87,7 +95,9 @@ export default function Calender() {
 
   const handleSaveEvent = (eventData) => {
     if (selectedEvent) {
-      setEvents(prev => prev.map(ev => (ev.id === eventData.id ? eventData : ev)));
+      setEvents(prev =>
+        prev.map(ev => (ev.id === eventData.id ? { ...eventData, color: ev.color } : ev))
+      );
     } else {
       const newEvent = {
         ...eventData,
@@ -96,6 +106,7 @@ export default function Calender() {
       };
       setEvents(prev => [...prev, newEvent]);
     }
+
     setIsOpenEvent(false);
     setSelectedDate(null);
     setSelectedEvent(null);
@@ -113,53 +124,78 @@ export default function Calender() {
     setIsOpenEvent(true);
   };
 
-  // 🔁 Filter for today's and future events
+  const handleEventDrop = ({ event, start, end }) => {
+    const updated = events.map(ev =>
+      ev.id === event.id ? { ...ev, start, end } : ev
+    );
+    setEvents(updated);
+  };
+
+  const handleEventResize = ({ event, start, end }) => {
+    const updated = events.map(ev =>
+      ev.id === event.id ? { ...ev, start, end } : ev
+    );
+    setEvents(updated);
+  };
+
+  const recurrenceEmoji = {
+    daily: " 🔁",
+    weekly: " 🔂",
+    monthly: " 🔄",
+    none: ""
+  };
+
+  const CustomEvent = ({ event }) => (
+    <div style={{ whiteSpace: "normal", wordWrap: "break-word" }}>
+      {event.title}{recurrenceEmoji[event.recurrence || "none"]}
+    </div>
+  );
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const upcomingEvents = events
-    .filter(event => new Date(event.start) >= today)
-    .sort((a, b) => new Date(a.start) - new Date(b.start))
-    .slice(0, 5); // limit to 5 if you want
+    .filter(ev => ev.start >= today)
+    .sort((a, b) => a.start - b.start);
+
+  const formatDateShort = (date) => moment(date).format("MMM D");
 
   return (
-    <div className="bg-[#fef9e7] min-h-screen p-4 border-t-2 border-b-2 border-black">
+    <div className="bg-[#fef9e7] min-h-screen p-4 border-t-2 border-b-2 border-black animate-fade-in">
       <h1 className="text-center text-4xl font-bold text-gray-800 py-6 border-b-2 border-black animate-fade-in">
         📅 My Event Calendar
       </h1>
 
-      <p className="text-center italic text-gray-600 mt-2 mb-8 animate-fade-in">
-        “Success is the sum of small efforts, repeated day in and day out.” – Robert Collier
-      </p>
-
-      <div className="flex justify-between px-4 gap-4 mt-10">
-        {/* ✅ Upcoming Events - Dynamic */}
-        <div className="w-1/5 p-4 bg-gray-100 rounded-lg border-2 border-black animate-slide-left">
+      <div className="flex justify-between px-4 gap-4 mt-10" style={{ minHeight: '80vh' }}>
+        <div className="w-1/5 p-4 bg-gray-100 rounded-lg border-2 border-black overflow-y-auto animate-slide-in-left" style={{ maxHeight: '80vh' }}>
           <h3 className="text-lg font-semibold mb-2">📌 Upcoming</h3>
           {upcomingEvents.length === 0 ? (
-            <p className="text-sm italic text-gray-500">No upcoming events</p>
+            <p className="text-sm text-gray-700">No upcoming events.</p>
           ) : (
             <ul className="text-sm text-gray-700 list-disc ml-4">
               {upcomingEvents.map(ev => (
                 <li key={ev.id}>
-                  🗓️ {moment(ev.start).format("MMM D, h:mm A")} – {ev.title}
+                  🗓️ {formatDateShort(ev.start)} – {ev.title}
                 </li>
               ))}
             </ul>
           )}
         </div>
 
-        {/* Calendar */}
-        <div className="w-3/5 relative animate-fade-in">
-          <div className="bg-[#f6ecff] p-6 rounded-2xl border-2 border-black shadow-md transition-all hover:shadow-xl">
-            <BigCalendar
+        <div className="w-3/5 relative animate-slide-in-up">
+          <div className="bg-[#f6ecff] p-6 rounded-2xl border-2 border-black shadow-md">
+            <DnDCalendar
               localizer={localizer}
               events={events}
               startAccessor="start"
               endAccessor="end"
               selectable
+              popup
+              onEventDrop={handleEventDrop}
+              onEventResize={handleEventResize}
+              resizable
               onSelectEvent={handleSelectEvent}
               onSelectSlot={handleSelectSlot}
-              style={{ height: "80vh" }}
+              style={{ height: "90vh" }}
               className="rbc-calendar !text-gray-800"
               views={["month", "week", "day"]}
               timeslots={1}
@@ -170,42 +206,26 @@ export default function Calender() {
                   color: "black",
                   borderRadius: "5px",
                   border: "none",
-                  padding: "6px 8px",
-                  fontWeight: "500",
+                  padding: "4px",
                   whiteSpace: "normal",
-                  overflow: "visible",
-                  textOverflow: "unset"
-                }
+                  fontWeight: "500",
+                },
               })}
+              components={{
+                event: CustomEvent
+              }}
             />
-            <style>
-              {`
-                .rbc-event-content {
-                  white-space: normal !important;
-                  overflow: visible !important;
-                  text-overflow: unset !important;
-                }
-
-                .rbc-day-bg:hover {
-                  background-color: #ffe8b3 !important;
-                  transform: scale(1.02);
-                  cursor: pointer;
-                  box-shadow: 0 0 10px rgba(0,0,0,0.15);
-                }
-              `}
-            </style>
           </div>
 
           <button
             onClick={() => (window.location.href = "/")}
-            className="mt-6 px-6 py-2 bg-indigo-600 text-white rounded-md shadow-lg hover:bg-indigo-700 transition-all duration-300 block mx-auto"
+            className="mt-6 px-6 py-2 bg-indigo-600 text-white rounded-md shadow-lg hover:bg-indigo-700 transition-all duration-300 block mx-auto animate-fade-in"
           >
             ⬅️ Go to Home
           </button>
         </div>
 
-        {/* Notes */}
-        <div className="w-1/5 p-4 bg-orange-100 rounded-lg border-2 border-black animate-slide-right">
+        <div className="w-1/5 p-4 bg-orange-100 rounded-lg border-2 border-black overflow-y-auto animate-slide-in-right" style={{ maxHeight: '80vh' }}>
           <h3 className="text-lg font-semibold mb-2">📝 Notes</h3>
           <ul className="text-sm text-gray-800 list-disc ml-4">
             <li>Check tasks before 5 PM</li>
@@ -228,7 +248,7 @@ export default function Calender() {
 
       <button
         onClick={handleAddEventClick}
-        className="fixed bottom-10 right-10 bg-purple-700 text-white w-14 h-14 text-3xl rounded-full shadow-lg hover:bg-purple-800 transition"
+        className="fixed bottom-10 right-10 bg-purple-700 text-white w-14 h-14 text-3xl rounded-full shadow-lg hover:bg-purple-800 transition animate-bounce"
         title="Add New Event"
       >
         +

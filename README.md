@@ -1,70 +1,196 @@
-# Getting Started with Create React App
+# Event Calendar – React Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A responsive and feature-rich event calendar built using React. It allows users to manage events effortlessly — including creating, editing, deleting, recurring scheduling, color labeling, and attachment handling — with data saved to localStorage.
 
-## Available Scripts
+---
 
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Folder Structure](#folder-structure)
+- [Getting Started](#getting-started)
+- [Available Scripts](#available-scripts)
+- [Usage](#usage)
+- [Customization](#customization)
+- [Future Improvements](#future-improvements)
+- [Learn More](#learn-more)
+- [License](#license)
+- [Author](#author)
+
+---
+
+## Features
+
+- Add, edit, and delete calendar events
+- Recurring event options (daily, weekly, monthly, custom)
+- Drag-and-drop events to reschedule
+- Resize events to adjust duration
+- Color selection for event categories
+- Optional file attachments for events
+- Side panels for upcoming events and personal notes
+- LocalStorage-based persistence
+- Mobile-responsive interface
+
+---
+
+## Tech Stack
+
+| Technology           | Description                     |
+|----------------------|---------------------------------|
+| React                | Frontend library for UI         |
+| React Router DOM     | Client-side routing             |
+| React Big Calendar   | Calendar UI component           |
+| Moment.js            | Date/time formatting and parsing|
+| Tailwind CSS         | Utility-first styling framework |
+| localStorage         | Frontend data persistence       |
+
+---
+
+## Folder Structure
+
+src/
+├── App.js
+├── Homepage.js
+├── AboutPage.js
+├── Calender.js
+├── EventPopup.js
+├── App.css
+├── Calender.css
+├── index.js
+
+yaml
+Copy
+Edit
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (version 14 or above)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Subhodh1/FLAM_TASK_3.git
+cd FLAM_TASK_3
+Install dependencies:
+
+bash
+Copy
+Edit
+npm install
+Start the development server:
+
+bash
+Copy
+Edit
+npm start
+Visit the application in your browser:
+
+arduino
+Copy
+Edit
+http://localhost:3000
+Available Scripts
 In the project directory, you can run:
 
-### `npm start`
+npm start
+Runs the app in development mode.
+Open http://localhost:3000 to view it in the browser.
+Hot-reloads on changes.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+npm test
+Launches the test runner in interactive watch mode.
+See running tests for more info.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+npm run build
+Builds the app for production to the build folder.
+Minifies and optimizes the app for best performance.
 
-### `npm test`
+npm run eject
+Note: irreversible!
+This exposes configuration files (e.g., Webpack, Babel) for full control.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Usage
+Click any slot in the calendar to create an event.
 
-### `npm run build`
+Click existing events to edit or delete them.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Select a recurrence type: daily, weekly, monthly, or custom interval.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Drag events to move them; resize from the bottom edge.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Use color pickers and upload attachments (optional).
 
-### `npm run eject`
+Upcoming events and static notes are visible in side panels.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+All data is stored automatically in localStorage.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Customization
+You can adapt this project to fit your needs:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Modify styles using Tailwind CSS or update App.css and Calender.css.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Replace localStorage with a backend for real-time syncing.
 
-## Learn More
+Add authentication for multiple users.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Add new calendar views (e.g., yearly, agenda).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Enhance form fields inside EventPopup.
 
-### Code Splitting
+Future Improvements
+Backend/API integration (MongoDB/Firebase/PostgreSQL)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Notification and reminder alerts
 
-### Analyzing the Bundle Size
+Export/Import calendar data (CSV or ICS)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Shared calendar with permission controls
 
-### Making a Progressive Web App
+Mobile app version with push notifications
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Learn More
+You can learn more in the official Create React App documentation:
+https://facebook.github.io/create-react-app/docs/getting-started
 
-### Advanced Configuration
+Also explore:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+React Documentation
 
-### Deployment
+React Big Calendar
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Tailwind CSS Docs
 
-### `npm run build` fails to minify
+License
+This project is licensed under the MIT License.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Author
+SUBHODH SATISH BIJJUR
+GitHub
+[subhodhbijjur@gmail.com]
+
+yaml
+Copy
+Edit
+
+---
+
+### ✅ Final Checklist
+
+Before using this README:
+
+- Replace:
+  - `yourusername` with your GitHub username
+  - `Your Name` with your actual name
+  - `youremail@example.com` with your real email
+
+- Rename the file to `README.md` and place it in your project root.
+
+Let me know if you'd like me to generate a downloadable `README.md` file or add a live demo/screenshots
