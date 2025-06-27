@@ -19,7 +19,7 @@ export default function EventPopup({ isOpen, onClose, onSave, onDelete, date, ev
       selectedDate.setMinutes(now.getMinutes());
       selectedDate.setSeconds(0);
       selectedDate.setMilliseconds(0);
-      const endDate = new Date(selectedDate.getTime() + 60 * 60 * 1000); // +1 hour
+      const endDate = new Date(selectedDate.getTime() + 60 * 60 * 1000);
 
       setStart(selectedDate.toISOString().slice(0, 16));
       setEnd(endDate.toISOString().slice(0, 16));
@@ -29,139 +29,136 @@ export default function EventPopup({ isOpen, onClose, onSave, onDelete, date, ev
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({
+    const eventData = {
       id: event?.id || Date.now(),
       title,
       start: new Date(start),
       end: new Date(end),
-    });
+    };
+    onSave(eventData);
+    alert(event ? "✅ Event updated successfully!" : "🎉 Event created successfully!");
+    onClose();
+  };
+
+  const handleDelete = () => {
+    if (window.confirm("Are you sure you want to delete this event?")) {
+      onDelete(event.id);
+      alert("❌ Event deleted successfully!");
+      onClose();
+    }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "rgba(0,0,0,0.4)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: "10",
-      }}
-    >
+    <>
       <div
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
         style={{
-          backgroundColor: "#fff9e6",
-          padding: "25px",
-          borderRadius: "12px",
-          width: "420px",
-          border: "2px solid black",
-          boxShadow: "0 6px 20px rgba(0, 0, 0, 0.15)",
-          fontFamily: "sans-serif",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0,0,0,0.4)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 10,
         }}
       >
-        <h2 className="text-2xl font-semibold mb-4">
-          {event ? "Edit Event" : "Add Event"}
-        </h2>
+        <div
+          style={{
+            backgroundColor: "#fff9e6",
+            padding: "25px",
+            borderRadius: "12px",
+            width: "420px",
+            border: "2px solid black",
+            boxShadow: "0 6px 20px rgba(0, 0, 0, 0.15)",
+            fontFamily: "sans-serif",
+          }}
+        >
+          <h2 className="text-2xl font-semibold mb-4">
+            {event ? "Edit Event" : "Add Event"}
+          </h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Title:</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-              style={{
-                width: "90%",
-                padding: "8px",
-                marginBottom: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
-            />
-          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Title:</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Start:</label>
-            <input
-              type="datetime-local"
-              value={start}
-              onChange={(e) => setStart(e.target.value)}
-              required
-              style={{
-                width: "90%",
-                padding: "8px",
-                marginBottom: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
-            />
-          </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Start:</label>
+              <input
+                type="datetime-local"
+                value={start}
+                onChange={(e) => setStart(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">End:</label>
-            <input
-              type="datetime-local"
-              value={end}
-              onChange={(e) => setEnd(e.target.value)}
-              required
-              style={{
-                width: "90%",
-                padding: "8px",
-                marginBottom: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
-            />
-          </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">End:</label>
+              <input
+                type="datetime-local"
+                value={end}
+                onChange={(e) => setEnd(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </div>
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: "10px",
-              flexWrap: "wrap",
-              marginTop: "20px",
-            }}
-          >
-            <button
-              type="submit"
-              className="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm px-5 py-2.5"
-            >
-              Save
-            </button>
-
-            <button
-              type="button"
-              onClick={onClose}
-              className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
-            >
-              Cancel
-            </button>
-
-            {event && (
+            <div style={buttonGroupStyle}>
+              <button
+                type="submit"
+                className="text-gray-900 bg-lime-300 hover:bg-lime-400 font-medium rounded-lg text-sm px-5 py-2.5"
+              >
+                Save
+              </button>
               <button
                 type="button"
-                onClick={() => {
-                  if (window.confirm("Are you sure you want to delete this event?")) {
-                    onDelete(event.id);
-                  }
-                }}
-                className="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                onClick={onClose}
+                className="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5"
               >
-                Delete
+                Cancel
               </button>
-            )}
-          </div>
-        </form>
+              {event && (
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5"
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
+
+const inputStyle = {
+  width: "90%",
+  padding: "8px",
+  marginBottom: "10px",
+  border: "1px solid #ccc",
+  borderRadius: "5px",
+};
+
+const buttonGroupStyle = {
+  display: "flex",
+  justifyContent: "center",
+  gap: "10px",
+  flexWrap: "wrap",
+  marginTop: "20px",
+};
